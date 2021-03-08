@@ -16,7 +16,8 @@ package command
 
 import (
 	"context"
-	camelk "github.com/apache/camel-k/pkg/client"
+
+	camelk "github.com/apache/camel-k/pkg/client/camel/clientset/versioned"
 	camelkv1alpha1 "github.com/apache/camel-k/pkg/client/camel/clientset/versioned/typed/camel/v1alpha1"
 	"knative.dev/client/pkg/kn/commands"
 )
@@ -41,7 +42,8 @@ func (params *KameletPluginParams) Initialize() {
 }
 
 func (params *KameletPluginParams) newKameletClient() (camelkv1alpha1.CamelV1alpha1Interface, error) {
-	client, err := camelk.NewClient(true)
+	// TODO: This needs the Rest config plumbed through or alternatively look it up afresh.
+	client, err := camelk.NewForConfig(nil)
 	if err != nil {
 		return nil, err
 	}
